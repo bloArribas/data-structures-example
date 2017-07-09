@@ -2822,7 +2822,7 @@ getJasmineRequireObj().matchersUtil = function(j$) {
       // unique nested structures.
       if (aStack[length] == a) { return bStack[length] == b; }
     }
-    // Add the first object to the stack of traversed objects.
+    // Add the first object to the stack.js.js of traversed objects.
     aStack.push(a);
     bStack.push(b);
     var size = 0;
@@ -2859,7 +2859,7 @@ getJasmineRequireObj().matchersUtil = function(j$) {
         result = !size;
       }
     }
-    // Remove the first object from the stack of traversed objects.
+    // Remove the first object from the stack.js.js of traversed objects.
     aStack.pop();
     bStack.pop();
 

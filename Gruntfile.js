@@ -7,7 +7,7 @@ module.exports = function(grunt) {
                 separator: ';'
             },
             dist: {
-                src: ['src/**/*.js'],
+                src: ['dist/**/*.js', '!dist/<%= pkg.name %>.js'],
                 dest: 'dist/<%= pkg.name %>.js'
             }
         },
@@ -23,9 +23,12 @@ module.exports = function(grunt) {
                 presets: ['es2015']
             },
             dist: {
-                files: {
-                    'dist/app.js': 'src/app.js'
-                }
+                files: [{
+                    expand: true,
+                    cwd: 'src/',
+                    src: ['*.js'],
+                    dest: 'dist/'
+                }]
             }
         },
         uglify: {
@@ -45,14 +48,18 @@ module.exports = function(grunt) {
                 globals: {
                     jQuery: true,
                     console: true,
-                    module: true,
-                    document: true
-                }
+                    document: true,
+                    module: true
+                },
+                esversion: 6
             }
         },
         watch: {
             files: ['<%= jshint.files %>'],
             tasks: ['jshint', 'qunit']
+        },
+        clean: {
+            dist: ['dist/*.js', 'dist/*.map', '!dist/<%= pkg.name %>.min.js', '!dist/<%= pkg.name %>.js', '!dist/<%= pkg.name %>.map']
         }
     });
 
@@ -62,7 +69,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-concat');
     grunt.loadNpmTasks('grunt-babel');
     grunt.loadNpmTasks('grunt-contrib-jasmine');
+    grunt.loadNpmTasks('grunt-contrib-clean');
     grunt.registerTask('test', ['jshint', 'jasmine']);
-    grunt.registerTask('default', ['jshint', 'babel', 'concat', 'uglify']);
+    grunt.registerTask('default', ['jshint', 'babel', 'concat', 'uglify', 'clean:dist']);
 
 };
